@@ -1,0 +1,7 @@
+-[x] Criar metas.
+-[x] Listas metas.
+-[x] Marcar/Desmarcar metas como concluída.
+-[x] Remover metas.
+-[x] Sistema de mensagens.
+-[x] Metas concluidas.
+-[x] Metas abertas.

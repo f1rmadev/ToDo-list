@@ -1,0 +1,89 @@
+node_modules/
+
+const { select, input, checkbox } = require ('@inquirer/prompts');
+
+let goal = {
+    value : 'Drink water everyday',
+    checked: false,
+}
+
+let goals = [ goal ];
+
+
+const registerGoal = async () => {
+    const goal = await input({ message: "Write your goal:"})
+
+    if(goal.length == 0){
+        console.log("The goal can't be empty!");
+        return
+    }
+
+    goals.push({ value: goal, checked: false})
+}
+
+const listGoals = async () => {
+    const answers = await checkbox ({
+        message: "Use the arrows to change your goals, the spaceboard to mark/desmark and Enter to finish this section",
+        choices: [...goals], // putting all the itens from goals in this array.
+        instructions : false,
+    })
+    if(answers.length == 0){
+        console.log("No goals selected!")
+        return
+    }
+
+    goals.forEach((g) => {
+        g.checked = false
+    })
+
+    answers.forEach((answer) => {
+        const goal = goals.find((g) => {
+            return g.value == answer
+        })
+        
+        goal.checked = true
+    })
+
+    console.log('Goals completed.');
+     
+}
+
+const start = async() => {
+
+ while(true){
+
+    const option =  await select({
+        message : "Menu >",
+        choices : [
+            {
+                name : "Register goal",
+                value: "Register"
+            },
+            {
+                name : "List goals",
+                value : "list"
+            },
+            {
+                 name: "Leave",
+                 value: "Leave"
+            }
+        ]
+           
+    })
+    
+    switch(option) {
+        case "Register" :
+             await registerGoal()
+             console.log(goals)
+            break //parar o caso de cadastrar
+        case "to list" : 
+            await listGoals()
+            break
+        case "Leave":
+            console.log("See you later!");
+            return
+        }
+    }
+}   
+
+start()
